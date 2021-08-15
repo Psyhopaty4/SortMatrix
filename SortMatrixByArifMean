@@ -1,0 +1,83 @@
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var rnd = new Random();
+            int[,] matrix = new int[7,8]; //Matrix for sorting
+            int[] arr_arif_mean = new int[7]; //Array for arimetic means
+
+            //Filling matrix with random numbers
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    matrix[i, j] = rnd.Next(99);
+                    Console.Write(matrix[i,j] + "   ");
+                }
+                Console.WriteLine();
+            }
+            //Sort strings of matrix in ascending
+            Console.WriteLine("Sort in ascending:");
+            int max;
+            int min, sum = 0;
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    min = j; 
+                    for (int k = j + 1; k < matrix.GetLength(1); k++) 
+                        if (matrix[i, min] > matrix[i,k]) 
+                            min = k;
+                    max = matrix[i,j];
+                    matrix[i, j] = matrix[i, min];
+                    matrix[i, min] = max;
+                    Console.Write(matrix[i, j] + "   "); 
+                }
+                Console.WriteLine();
+            }
+            //Finging the arithmetic mean in every string
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    sum += matrix[i, j];
+                arr_arif_mean[i] = sum;
+                Console.WriteLine($"arithmetic mean {i+1} string: " + sum/5);
+                sum = 0;
+            }
+            Array.Sort(arr_arif_mean);
+            Console.WriteLine();
+            //Sort strings of matrix by arithmetic mean
+            for (int t = 0; t < matrix.GetLength(0); t++)
+            {
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < matrix.GetLength(1); j++)
+                    {
+                        sum += matrix[i, j];
+                    }
+                    if (sum == arr_arif_mean[t])
+                    {
+                        for (int k = 0; k < matrix.GetLength(1); k++)
+                        {
+                            max = matrix[t, k];
+                            matrix[t, k] = matrix[i, k];
+                            matrix[i, k] = max;
+                        }       
+                    }
+                    sum = 0;
+                }
+            } 
+            //Output results
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    Console.Write(matrix[i, j] + "   ");
+                Console.WriteLine();
+            }
+        }
+    }
+}
